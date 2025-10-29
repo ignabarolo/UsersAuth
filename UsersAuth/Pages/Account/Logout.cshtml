@@ -1,0 +1,42 @@
+﻿
+@page
+@model UsersAuth.Pages.Account.LogoutModel
+@{
+    ViewData["Title"] = "Sesión cerrada";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header bg-primary text-white text-center">
+                <h3 class="fw-light my-3">@ViewData["Title"]</h3>
+            </div>
+            <div class="card-body p-5 text-center">
+
+                <i class="fas fa-check-circle text-success mb-4" style="font-size: 3rem;"></i>
+
+                <p class="lead">
+                    ¡Ha cerrado sesión exitosamente! Su sesión ha sido terminada por seguridad.
+                </p>
+
+                <hr class="my-4">
+
+                <div class="d-grid gap-2">
+                    <a asp-page="/Account/Login" class="btn btn-primary btn-lg">
+                        Iniciar Sesión de Nuevo
+                    </a>
+
+                    <a asp-page="/Index" class="btn btn-outline-secondary">
+                        Volver al Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/84b91a9756.js" crossorigin="anonymous"></script>
+}
