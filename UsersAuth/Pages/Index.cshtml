@@ -1,25 +1,4 @@
-﻿@* @page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
-
-<div class="card mb-3 mx-auto" style="max-width: 540px;">
-    <div class="row g-0">
-        <div class="col-md-4">
-            <img src="https://media.licdn.com/dms/image/v2/C4D03AQHapgOvIk5Nrg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1580150756979?e=1763596800&v=beta&t=yJIyuLQFSvGNG4MLgLBMZftyKyxvLqRrfPR-KIeVh5Q" class="img-fluid rounded-start" alt="...">
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <h5 class="card-title">Bienvenido!</h5>
-                <p class="card-text">Este es un proyecto de autenticación de usuarios para demostrar mis conocimientos en AspNet Identity.</p>
-                <p class="card-text"><small class="text-body-secondary">Last updated 16/10/2025</small></p>
-            </div>
-        </div>
-    </div>
-</div> *@
-
-@page
+﻿@page
 @model IndexModel
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
@@ -32,10 +11,6 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-        // ====================================
-        // ESTADO 1: USUARIO AUTENTICADO (Panel de Pruebas)
-        // ====================================
-
         <h1 class="display-4">Panel de Pruebas</h1>
         <p class="lead">Conexión exitosa para el usuario: <strong>@User.Identity.Name</strong></p>
 
@@ -66,10 +41,6 @@
     }
     else
     {
-        // ====================================
-        // ESTADO 2: VISITANTE (Landing Page Técnica de Portafolio)
-        // ====================================
-
         <h1 class="display-3">Módulo de Autenticación y Autorización</h1>
         <p class="lead text-muted">
             Este proyecto demuestra la implementación de seguridad y gestión de identidad, utilizando Identity Framework.
@@ -94,7 +65,7 @@
         </div>
 
         <div class="mt-5">
-            <a href="URL_A_TU_REPOSITORIO_GITHUB" target="_blank" class="btn btn-dark btn-lg me-3">
+            <a href="https://github.com/ignabarolo/UsersAuth" target="_blank" class="btn btn-dark btn-lg me-3">
                 Ver Código Fuente (GitHub) <i class="fab fa-github ms-2"></i>
             </a>
             <a asp-page="/Account/Login" class="btn btn-outline-primary btn-lg">

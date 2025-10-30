@@ -54,35 +54,52 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 var app = builder.Build();
-
-
-using (var scope = app.Services.CreateScope())
+try
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Rol>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    await EnsureDatabaseIsSeeded(app.Services);
+}
+catch (Exception ex)
+{
+    app.Logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+}
 
-    string[] roleNames = { "Admin", "User" };
-
-    foreach (var roleName in roleNames)
+async Task EnsureDatabaseIsSeeded(IServiceProvider serviceProvider)
+{
+    using (var scope = serviceProvider.CreateScope())
     {
-        var roleExist = await roleManager.RoleExistsAsync(roleName);
-        if (!roleExist)
+        var services = scope.ServiceProvider;
+
+        // 1. Migración asegurada:
+        var context = services.GetRequiredService<AppIdentityDBContext>();
+        await context.Database.MigrateAsync(); // Usamos la versión ASÍNCRONA
+
+        // 2. Seeding (ahora sí se ejecuta después de la migración)
+        var roleManager = services.GetRequiredService<RoleManager<Rol>>();
+        var userManager = services.GetRequiredService<UserManager<User>>();
+
+        string[] roleNames = { "Admin", "User" };
+
+        foreach (var roleName in roleNames)
         {
-            await roleManager.CreateAsync(new Rol { Name = roleName });
+            var roleExist = await roleManager.RoleExistsAsync(roleName);
+            if (!roleExist)
+            {
+                await roleManager.CreateAsync(new Rol { Name = roleName });
+            }
         }
-    }
 
-    var adminEmail = app.Configuration.GetSection("EmailSettings").Value;
-    if (string.IsNullOrEmpty(adminEmail)) throw new Exception("Admin email is not configured.");
+        var adminEmail = app.Configuration.GetSection("AdminUser").GetSection("Email").Value;
+        if (string.IsNullOrEmpty(adminEmail)) throw new Exception("Admin email is not configured.");
 
-    var adminUserEmail = adminEmail;
+        var adminUserEmail = adminEmail;
 
-    var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
-    if (adminUser != null)
-    {
-        if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+        var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
+        if (adminUser != null)
         {
-            await userManager.AddToRoleAsync(adminUser, "Admin");
+            if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
+            {
+                await userManager.AddToRoleAsync(adminUser, "Admin");
+            }
         }
     }
 }

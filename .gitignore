@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Archivo de orquestación de desarrollo con secretos.
+docker-compose.yml
