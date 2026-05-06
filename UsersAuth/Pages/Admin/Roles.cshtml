@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Identity
 
 @{
-    ViewData["Title"] = "Gestión de Roles de Usuarios";
+    ViewData["Title"] = "User Role Management";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -15,8 +15,8 @@
             <thead>
                 <tr>
                     <th>Email</th>
-                    <th>Roles Asignados</th>
-                    <th>Acciones</th>
+                    <th>Assigned Roles</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,12 +31,12 @@
                             }
                             else
                             {
-                                <em>Sin roles</em>
+                                <em>No roles</em>
                             }
                         </td>
                         <td>
                             <a class="btn btn-sm btn-info" asp-page="./ManageUserRoles" asp-route-userId="@userRoleModel.UserId">
-                                Gestionar Roles
+                                Manage Roles
                             </a>
                         </td>
                     </tr>
@@ -55,18 +55,18 @@
 
         if (isValid && statusMessage ) {
             Swal.fire({
-                title: '¡Éxito!',
+                title: 'Success!',
                 text: statusMessage,
                 icon: 'success',
-                confirmButtonText: 'Aceptar',
+                confirmButtonText: 'OK',
                 timer: 3000
             });
         } else if(!isValid && statusMessage) {
             Swal.fire({
-                title: '¡Error!',
+                title: 'Error!',
                 text: statusMessage,
                 icon: 'error',
-                confirmButtonText: 'Aceptar',
+                confirmButtonText: 'OK',
                 timer: 3000
             });
         }  

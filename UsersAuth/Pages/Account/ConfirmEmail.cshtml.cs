@@ -26,13 +26,13 @@ public class ConfirmEmailModel : PageModel
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
-            return NotFound($"No se puede cargar el usuario con ID '{userId}'.");
+            return NotFound($"Unable to load user with ID '{userId}'.");
         }
 
         var result = await _userManager.ConfirmEmailAsync(user, code);
         if (!result.Succeeded)
         {
-            throw new InvalidOperationException($"Error al confirmar el correo electrónico del usuario con ID '{userId}':");
+            throw new InvalidOperationException($"Error confirming email for user with ID '{userId}':");
         }
 
         return Page();

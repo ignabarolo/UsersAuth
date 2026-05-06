@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 using UsersAuth.Identity;
 
 namespace UsersAuth.Pages.Account;
@@ -25,7 +24,7 @@ public class ResetPasswordModel : PageModel
     {
         if (code == null)
         {
-            return BadRequest("Debe proveer un codigo para resetear la contraseña");
+            return BadRequest("A code must be provided to reset the password.");
         }
         else
         {
@@ -44,7 +43,6 @@ public class ResetPasswordModel : PageModel
         var user = await _userManager.FindByEmailAsync(Input.Email);
         if (user == null)
         {
-            // Don't reveal that the user does not exist
             return RedirectToPage("./ResetPasswordConfirmation");
         }
 

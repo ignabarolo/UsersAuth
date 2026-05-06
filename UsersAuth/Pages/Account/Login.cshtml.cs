@@ -58,7 +58,7 @@ public class LoginModel : PageModel
 
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "No existe un usuario con este email.");
+                ModelState.AddModelError(string.Empty, "No user exists with this email.");
                 return Page();
             }
 
@@ -81,7 +81,7 @@ public class LoginModel : PageModel
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Inicio de sesión fallido.");
+                ModelState.AddModelError(string.Empty, "Login failed.");
                 return Page();
             }
         }

@@ -52,7 +52,7 @@ public class RegisterModel : PageModel
                 var addResult = await _userManager.AddToRoleAsync(user, "User");
                 if (!addResult.Succeeded)
                 {
-                    ModelState.AddModelError(string.Empty, "Error al añadir roles.");
+                    ModelState.AddModelError(string.Empty, "Error adding roles.");
                     return Page();
                 }
 
@@ -65,12 +65,12 @@ public class RegisterModel : PageModel
 
                 if (callbackUrl == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Error interno al crear enlace de confirmación.");
+                    ModelState.AddModelError(string.Empty, "Internal error creating confirmation link.");
                     return Page();
                 }
 
-                await _emailSender.SendEmailAsync(Register.Email, "Confirma tu email",
-                    $"Por favor confirma tu email <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickeando aquí</a>.");
+                await _emailSender.SendEmailAsync(Register.Email, "Confirm your email",
+                    $"Please confirm your email <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>by clicking here</a>.");
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return LocalRedirect(returnUrl);

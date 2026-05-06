@@ -4,18 +4,18 @@ namespace UsersAuth.Pages.Account;
 
 public class ResetPasswordDto
 {
-    [Required(ErrorMessage = "El email es requerido.")]
-    [EmailAddress(ErrorMessage = "Por favor introduzca un email válido.")]
+    [Required(ErrorMessage = "Email is required.")]
+    [EmailAddress(ErrorMessage = "Please enter a valid email.")]
     public string Email { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "La contraseña es requerida.")]
+    [Required(ErrorMessage = "Password is required.")]
     [DataType(DataType.Password)]
     public string Password { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "La contraseña de confirmacion es requerida.")]
-    [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
+    [Required(ErrorMessage = "Password confirmation is required.")]
+    [Compare("Password", ErrorMessage = "Passwords do not match.")]
     [DataType(DataType.Password)]
-    public string ConfirmPassword { get; set; } = string.Empty; 
+    public string ConfirmPassword { get; set; } = string.Empty;
 
     public string Code { get; set; } = string.Empty;
 }

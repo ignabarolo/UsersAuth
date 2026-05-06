@@ -34,12 +34,10 @@ public class EmailSender : IEmailSender
 
             mailMessage.To.Add(email);
 
-            // Enviar el correo de forma asíncrona
             return client.SendMailAsync(mailMessage);
         }
         catch (Exception ex)
         {
-            // En producción, podrías decidir lanzar la excepción o simplemente loguearla.
             return Task.FromException(ex);
         }
     }

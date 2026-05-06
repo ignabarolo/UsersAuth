@@ -36,18 +36,15 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    // Password settings
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 8;
     options.Password.RequiredUniqueChars = 1;
-    // Lockout settings
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
-    // User settings
     options.User.AllowedUserNameCharacters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = true;
@@ -69,11 +66,9 @@ async Task EnsureDatabaseIsSeeded(IServiceProvider serviceProvider)
     {
         var services = scope.ServiceProvider;
 
-        // 1. Migración asegurada:
         var context = services.GetRequiredService<AppIdentityDBContext>();
-        await context.Database.MigrateAsync(); // Usamos la versión ASÍNCRONA
+        await context.Database.MigrateAsync();
 
-        // 2. Seeding (ahora sí se ejecuta después de la migración)
         var roleManager = services.GetRequiredService<RoleManager<Rol>>();
         var userManager = services.GetRequiredService<UserManager<User>>();
 
