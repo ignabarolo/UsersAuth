@@ -44,8 +44,7 @@ public class RolesModel : PageModel
                 Email = user.Email,
                 Roles = userRoles.ToList()
             };
-            
-            // listar los roles para el formulario de gestion de roles
+
             model.AvailableRoles = allRoles.Select(role => new RoleAssignment
             {
                 RoleName = role!,

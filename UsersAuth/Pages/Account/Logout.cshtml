@@ -2,7 +2,7 @@
 @page
 @model UsersAuth.Pages.Account.LogoutModel
 @{
-    ViewData["Title"] = "Sesión cerrada";
+    ViewData["Title"] = "Session closed";
 }
 
 <div class="row justify-content-center mt-5">
@@ -17,18 +17,18 @@
                 <i class="fas fa-check-circle text-success mb-4" style="font-size: 3rem;"></i>
 
                 <p class="lead">
-                    ¡Ha cerrado sesión exitosamente! Su sesión ha sido terminada por seguridad.
+                    You have successfully logged out! Your session has been terminated for security.
                 </p>
 
                 <hr class="my-4">
 
                 <div class="d-grid gap-2">
                     <a asp-page="/Account/Login" class="btn btn-primary btn-lg">
-                        Iniciar Sesión de Nuevo
+                        Log in again
                     </a>
 
                     <a asp-page="/Index" class="btn btn-outline-secondary">
-                        Volver al Inicio
+                        Back to Home
                     </a>
                 </div>
             </div>

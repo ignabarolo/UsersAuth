@@ -1,7 +1,7 @@
 ﻿@page
 @model UsersAuth.Pages.Admin.ManageUserRolesModel
 @{
-    ViewData["Title"] = "Gestionar Roles";
+    ViewData["Title"] = "Manage Roles";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -11,7 +11,7 @@
     <input type="hidden" asp-for="ViewModel.UserId" />
     <div class="card shadow">
         <div class="card-header">
-            <h5 class="mb-0">Asignación de Roles</h5>
+            <h5 class="mb-0">Role Assignment</h5>
         </div>
         <div class="card-body">
             @if (Model.ViewModel.RoleAssignments != null && Model.ViewModel.RoleAssignments.Any())
@@ -34,14 +34,14 @@
             }
             else
             {
-                <p>No hay roles definidos en el sistema.</p>
+                <p>No roles defined in the system.</p>
             }
         </div>
     </div>
 
     <div class="mt-4 text-center">
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a asp-page="./Roles" class="btn btn-secondary">Cancelar y Volver</a>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-page="./Roles" class="btn btn-secondary">Cancel and Go Back</a>
     </div>
 </form>
 

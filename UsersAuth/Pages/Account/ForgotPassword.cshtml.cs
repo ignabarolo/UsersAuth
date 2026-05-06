@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Encodings.Web;
 using UsersAuth.Identity;
 
 namespace UsersAuth.Pages.Account;
@@ -27,8 +27,8 @@ public class ForgotPasswordModel : PageModel
 
     public class InputModel
     {
-        [Required(ErrorMessage = "El email es requerido.")]
-        [EmailAddress(ErrorMessage = "Por favor introduzca un email válido.")]
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email.")]
         public string Email { get; set; }
     }
 
@@ -37,7 +37,7 @@ public class ForgotPasswordModel : PageModel
         if (ModelState.IsValid)
         {
             var user = await _userManager.FindByEmailAsync(Input.Email);
-          
+
             await UserValidations(user);
             if (!ModelState.IsValid)
             {
@@ -53,14 +53,14 @@ public class ForgotPasswordModel : PageModel
 
             if (callbackUrl == null)
             {
-                ModelState.AddModelError(string.Empty, "Error interno al crear enlace para restablecer contraseña.");
+                ModelState.AddModelError(string.Empty, "Internal error creating password reset link.");
                 return Page();
             }
 
             await _emailSender.SendEmailAsync(
                 Input.Email,
-                "Restablecer contraseña",
-                $"Por favor restablezca su contraseña <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clickeando aquí</a>.");
+                "Reset Password",
+                $"Please reset your password <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>by clicking here</a>.");
 
             return RedirectToPage("./ForgotPasswordConfirmation");
         }
@@ -72,13 +72,13 @@ public class ForgotPasswordModel : PageModel
     {
         if (user == null)
         {
-            ModelState.AddModelError(string.Empty, "Usuario no encontrado.");
+            ModelState.AddModelError(string.Empty, "User not found.");
             return;
         }
 
         if (!await _userManager.IsEmailConfirmedAsync(user))
         {
-            ModelState.AddModelError(string.Empty, "Para restablecer la contraseña debe confirmar el email primero.");
+            ModelState.AddModelError(string.Empty, "You must confirm your email before resetting your password.");
             return;
         }
     }

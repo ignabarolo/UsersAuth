@@ -4,36 +4,36 @@
 @using Microsoft.AspNetCore.Identity
 
 @{
-    ViewData["Title"] = "Módulo de Autenticación - Portafolio";
+    ViewData["Title"] = "Authentication Module - Portfolio";
 }
 
 <div class="text-center mt-5">
 
     @if (User.Identity.IsAuthenticated)
     {
-        <h1 class="display-4">Panel de Pruebas</h1>
-        <p class="lead">Conexión exitosa para el usuario: <strong>@User.Identity.Name</strong></p>
+        <h1 class="display-4">Test Panel</h1>
+        <p class="lead">Successful connection for user: <strong>@User.Identity.Name</strong></p>
 
         @if (User.IsInRole("Admin"))
         {
             <div class="card bg-warning bg-opacity-10 mt-4 p-4 shadow-sm mx-auto" style="max-width: 600px; border-left: 5px solid #ffc107;">
-                <h4>Funcionalidad Admin Demostrada</h4>
-                <p>Usted está conectado como <strong>Administrador</strong> y puede acceder a la gestión de identidad.</p>
+                <h4>Admin Functionality Demo</h4>
+                <p>You are logged in as <strong>Administrator</strong> and can access identity management.</p>
                 <a asp-page="/Admin/Roles" class="btn btn-warning btn-lg mt-3">
-                    Ir a Gestión de Roles (Demo)
+                    Go to Role Management (Demo)
                 </a>
             </div>
         }
         else
         {
             <div class="alert alert-info mt-4 mx-auto" style="max-width: 600px;">
-                Sesión iniciada correctamente como usuario estándar. Para probar la gestión de identidad, inicie sesión con una cuenta con rol 'Admin'.
+                Standard user session started successfully. To test identity management, log in with an account with the 'Admin' role.
             </div>
             <div class="nav-item">
                 <form method="post" asp-area="Identity" asp-page="/Account/Logout" class="form-inline">
                     <input type="hidden" name="returnUrl" value="/Account/Logout" />
                     <button type="submit" class="btn btn-secondary mt-3">
-                        Cerrar Sesión
+                        Log Out
                     </button>
                 </form>
             </div>
@@ -41,9 +41,9 @@
     }
     else
     {
-        <h1 class="display-3">Módulo de Autenticación y Autorización</h1>
+        <h1 class="display-3">Authentication and Authorization Module</h1>
         <p class="lead text-muted">
-            Este proyecto demuestra la implementación de seguridad y gestión de identidad, utilizando Identity Framework.
+            This project demonstrates the implementation of security and identity management using Identity Framework.
         </p>
 
         <hr class="my-4" />
@@ -51,25 +51,25 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <p class="mb-4">
-                    <strong>Tecnologías:</strong> ASP.NET Core Razor Pages, C#, .NET Identity Framework, Entity Framework Core, SweetAlert2, Bootstrap.
+                    <strong>Technologies:</strong> ASP.NET Core Razor Pages, C#, .NET Identity Framework, Entity Framework Core, SweetAlert2, Bootstrap.
                 </p>
 
-                <h4 class="mt-4">Funcionalidades Clave Implementadas:</h4>
+                <h4 class="mt-4">Key Features Implemented:</h4>
                 <ul class="list-unstyled text-start mx-auto" style="width: fit-content;">
-                    <li><i class="fas fa-check-circle me-2 text-success"></i> <strong>Registro y Login</strong> con búsqueda por Email.</li>
-                    <li><i class="fas fa-check-circle me-2 text-success"></i> Implementación de <strong>Roles y Políticas</strong> de Autorización <strong>AdminPolicy</strong>.</li>
-                    <li><i class="fas fa-check-circle me-2 text-success"></i> <strong>Gestión CRUD de Usuarios</strong> y asignación dinámica de roles (solo Admin).</li>
-                    <li><i class="fas fa-check-circle me-2 text-success"></i> Sistema de notificaciones amigables usando <strong>SweetAlert2.</strong></li>
+                    <li><i class="fas fa-check-circle me-2 text-success"></i> <strong>Registration and Login</strong> with email lookup.</li>
+                    <li><i class="fas fa-check-circle me-2 text-success"></i> Implementation of <strong>Roles and Policies</strong> with <strong>AdminPolicy</strong> authorization.</li>
+                    <li><i class="fas fa-check-circle me-2 text-success"></i> <strong>CRUD User Management</strong> and dynamic role assignment (Admin only).</li>
+                    <li><i class="fas fa-check-circle me-2 text-success"></i> User-friendly notification system using <strong>SweetAlert2.</strong></li>
                 </ul>
             </div>
         </div>
 
         <div class="mt-5">
             <a href="https://github.com/ignabarolo/UsersAuth" target="_blank" class="btn btn-dark btn-lg me-3">
-                Ver Código Fuente (GitHub) <i class="fab fa-github ms-2"></i>
+                View Source Code (GitHub) <i class="fab fa-github ms-2"></i>
             </a>
             <a asp-page="/Account/Login" class="btn btn-outline-primary btn-lg">
-                Probar el Sistema (Iniciar Sesión)
+                Try the System (Log in)
             </a>
         </div>
     }

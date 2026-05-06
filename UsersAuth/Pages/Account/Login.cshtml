@@ -1,7 +1,7 @@
 ﻿@page
 @model UsersAuth.Pages.Account.LoginModel
 @{
-    ViewData["Title"] = "Iniciar sesión";
+    ViewData["Title"] = "Log in";
 }
 
 <div class="row">
@@ -21,24 +21,24 @@
                         <span asp-validation-for="Login.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Login.Password">Contraseña</label>
+                        <label asp-for="Login.Password">Password</label>
                         <input asp-for="Login.Password" class="form-control" type="password"/>
                         <span asp-validation-for="Login.Password" class="text-danger"></span>
                     </div>
 
                     <div class="form-group pt-2 text-center">
                         <p>
-                            <a asp-page="./ForgotPassword">Olvide mi contraseña</a>
+                            <a asp-page="./ForgotPassword">Forgot your password?</a>
                         </p>
                     </div>
 
                     <div class="form-group d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                        <button type="submit" class="btn btn-primary">Log in</button>
                     </div>
 
                     <div class="form-group pt-4 text-center">
                         <p>
-                            ¿No tienes cuenta? <a asp-page="./Register">Regístrate</a>
+                            Don't have an account? <a asp-page="./Register">Register</a>
                         </p>
                     </div>
                 </form>

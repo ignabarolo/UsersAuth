@@ -1,7 +1,7 @@
 ﻿@page
 @model UsersAuth.Pages.Account.RegisterModel
 @{
-    ViewData["Title"] = "Registro";
+    ViewData["Title"] = "Register";
 }
 
 <div class="row">
@@ -19,7 +19,7 @@
                     <div asp-validation-summary="All" class="text-danger"></div>
 
                     <div class="mb-3">
-                        <label asp-for="Register.UserName">Nombre de usuario</label>
+                        <label asp-for="Register.UserName">Username</label>
                         <input asp-for="Register.UserName" class="form-control" type="text" />
                         <span asp-validation-for="Register.UserName" class="text-danger"></span>
                     </div>
@@ -31,24 +31,24 @@
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Register.Password">Contraseña</label>
+                        <label asp-for="Register.Password">Password</label>
                         <input asp-for="Register.Password" class="form-control" type="password" />
                         <span asp-validation-for="Register.Password" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Register.Password2">Confirmar contraseña</label>
+                        <label asp-for="Register.Password2">Confirm password</label>
                         <input asp-for="Register.Password2" class="form-control" type="password" />
                         <span asp-validation-for="Register.Password2" class="text-danger"></span>
                     </div>
 
                     <div class="d-grid mt-4 d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Registrarse</button>
+                        <button type="submit" class="btn btn-primary">Register</button>
                     </div>
 
                     <div class="form-group pt-4 text-center">
                         <p>
-                            ¿Ya tienes cuenta? <a asp-page="./Login">Iniciar sesión</a>
+                            Already have an account? <a asp-page="./Login">Log in</a>
                         </p>
 
                     </div>
