@@ -1,82 +1,78 @@
-# 🚀 [UsersAuth] - .NET Core MVC Web Application
+# UsersAuth — ASP.NET Core Identity Demo
 
-This project is a web application developed using **.NET Core (MVC)**, designed to demonstrate the implementation of security and identity management, using Identity Framework.
+ASP.NET Core 9.0 Razor Pages application demonstrating security and identity management with ASP.NET Core Identity Framework. Uses PostgreSQL (EF Core/Npgsql) and is deployable on free-tier services (Render + Neon).
 
-The deployment follows a **Zero Cost Infrastructure** approach, utilizing free cloud services for both hosting and the database.
+## Tech Stack
 
-## 🛠️ Technology Stack
+- **Backend:** .NET 9.0, ASP.NET Core Razor Pages
+- **Identity:** ASP.NET Core Identity with custom `User`/`Rol` (Guid PKs)
+- **Database:** PostgreSQL via Entity Framework Core + Npgsql
+- **UI:** Bootstrap 5, SweetAlert2
+- **Email:** SMTP via Gmail App Password
+- **Hosting:** Render (free tier) + Neon (free tier PostgreSQL)
 
-* **Backend:** .NET Core 9.0
-* **Frameworks:** ASP.NET Core MVC
-* **Libraries:** Bootstrap 5, SweetAlert2
-* **Database:** PostgreSQL
-* **Hosting (Web Service):** Render (Free Tier)
-* **Database (DBaaS):** Neon (Free Tier)
-
----
-
-## 🌐 Access
-
-The application is currently deployed and publicly accessible at the following address:
-
-* **Production URL (Render):** `[no ready yet]`
-
-### ⚠️ Important Note on Free Hosting (Render)
-
-**CRITICAL WARNING:** Because the project uses the Render Free Tier, the web service will **automatically spin down after 15 minutes of inactivity**. The application will become available again automatically upon request, but the first user may experience a cold start delay of 20-30 seconds.
-
----
-
-## ⚙️ Local Environment Setup
+## Local Setup
 
 ### Prerequisites
 
-Before running the project locally, ensure you have the following installed:
+- [.NET SDK 9.0](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+- PostgreSQL (local or remote)
+- Gmail account with [App Password](https://support.google.com/accounts/answer/185833) generated
 
-* .[NET SDK] 9.0
+### Configuration
 
-* Git
+Set all secrets via `dotnet user-secrets` (do not edit `appsettings.Development.json` directly):
 
-* PostgreSQL
+```powershell
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Database=UsersAuth;Username=postgres;Password=postgres"
+dotnet user-secrets set "AdminUser:Email" "admin@example.com"
+dotnet user-secrets set "EmailSettings:Username" "youremail@gmail.com"
+dotnet user-secrets set "EmailSettings:Password" "your-16-char-app-password"
+dotnet user-secrets set "EmailSettings:FromEmail" "youremail@gmail.com"
+dotnet user-secrets set "EmailSettings:FromName" "UsersAuth"
+```
 
-#### 📧 Email Sending Configuration
+| Key | Purpose |
+|-----|---------|
+| `ConnectionStrings:DefaultConnection` | PostgreSQL connection string |
+| `AdminUser:Email` | Email that auto-gets the Admin role on startup |
+| `EmailSettings:Username` | Gmail address |
+| `EmailSettings:Password` | Gmail App Password (16 characters) |
+| `EmailSettings:FromEmail` | Sender address (must match Username for Gmail) |
+| `EmailSettings:FromName` | Display name for sent emails |
 
-**Note:** *This configuration is mandatory for features requiring email (e.g., registration, password reset) to function correctly.*
+### Run
 
-This application uses Gmail SMTP services. Due to Google's security policies, direct use of your main Google password will fail. You must generate an App Password.
+```powershell
+dotnet restore                    # restore NuGet packages
+dotnet libman restore             # restore SweetAlert2 client library
+dotnet run --launch-profile Dev   # start on http://localhost:5025
+dotnet run --launch-profile Prod  # production mode on http://localhost:5025
+```
 
-Follow these steps to set up your credentials:
+EF Core auto-migrates and seeds on startup — no manual migration step needed.
 
-1.  Enable Two-Step Verification (2FA) on your Google Account (this is a prerequisite).
+### Docker
 
-2.  Navigate to the Security settings of your Google Account.
+```powershell
+docker build -t usersauth -f Dockerfile .
+docker run -p 8080:8080 usersauth
+```
 
-3.  Under "Signing in to Google," generate a new App Password.
+Container exposes ports 8080 (HTTP) and 8081 (HTTPS).
 
-4.  Use this generated 16-character App Password as the value for the required SMTP environment variable in your project's configuration ***(appsettings.Development.json)***. 
+## Architecture
 
-    **appsettings.Development.json**
+- **Entrypoint:** `Program.cs` — configures EF Core, Identity, Razor Pages, authorization (AdminPolicy), email, and seeds roles + admin user at startup
+- **Identity:** `Identity/` — `User` (IdentityUser\<Guid\>), `Rol` (IdentityRole\<Guid\>), `AppIdentityDBContext`
+- **UI:** Razor Pages in `Pages/` — `Account/` (login, register, password reset, email confirmation, logout), `Admin/` (role management)
+- **Authorization:** `AdminPolicy` requires `"Admin"` role. Admin pages are restricted. Public pages: login, register, forgot/reset password
+- **Controllers:** Minimal — only `HomeController`
+- **Services:** `EmailSender` — SMTP via Gmail App Password
 
-        {
-          "EmailSettings": {
-          "Host": "smtp.gmail.com", // By default, do not change
-          "Port": 587, // Standard port for STARTTLS/TLS
-          "Username": "youremail@gmail.com",
-          "Password": "aaaa aaaa aaaa aaaa", // Use App Password
-          "FromEmail": "youremail@gmail.com", // It must match the user if you use Gmail.
-          "FromName": "Name of your application",
-          "EnableSsl": true
-          }
-        }
+### Security Defaults
 
-**Need more detail?** Search for: "Generate Google Gmail App Password"
-
-#### 🛡️ Role Seeding & Initialization
-
-This code block runs once during application startup (after database migration, if applicable).
-
-1.  It ensures the security foundation is properly set by: Creating mandatory roles (Admin, User) if they do not exist in the database.
-
-2.  Assigning the Admin role to the hardcoded test email (youremail@gmail.com) to guarantee that an initial administrative user is always available upon first execution.
-
-**ACTION REQUIRED:** If you intend to use a different administrator account for testing, you must update the hardcoded email address in the application's startup code.
+- Password: min 8 chars, requires digit + uppercase + lowercase, no special chars required
+- Lockout: 5 failed attempts → 5 minute lockout
+- New registrations auto-assigned `"User"` role
+- Admin role auto-assigned on startup to the email configured in `AdminUser:Email`
