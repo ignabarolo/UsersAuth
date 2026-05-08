@@ -33,6 +33,7 @@ builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

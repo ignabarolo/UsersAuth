@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UsersAuth.Identity;
+using UsersAuth.Services;
 
 namespace UsersAuth.Pages.Account;
 
@@ -11,12 +12,14 @@ public class LoginModel : PageModel
     private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
     private readonly IConfiguration _configuration;
+    private readonly ITokenService _tokenService;
 
-    public LoginModel(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
+    public LoginModel(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration, ITokenService tokenService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _configuration = configuration;
+        _tokenService = tokenService;
     }
 
     [BindProperty]
@@ -66,7 +69,8 @@ public class LoginModel : PageModel
                 .PasswordSignInAsync(user.UserName, Login.Password, true, true);
             if (result.Succeeded)
             {
-                return LocalRedirect(returnUrl);
+                var token = await _tokenService.GenerateTokenAsync(user);
+                return new JsonResult(new { token, email = user.Email, userId = user.Id.ToString() });
             }
             if (result.RequiresTwoFactor)
             {
